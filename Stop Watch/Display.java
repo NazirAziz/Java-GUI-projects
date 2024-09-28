@@ -112,17 +112,20 @@ class Display{
         secondPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
     }
     // lower panel -> buttons
-    public JButton start;
+    JButton start;
     JButton reset;
+    JButton pause;
     private void setUpBottonPanel(){
         buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new FlowLayout());
 
         start = new JButton("Start");
         reset = new JButton("Reset");
+        pause = new JButton("Pause");
 
         buttonsPanel.add(start);
         buttonsPanel.add(reset);
+        buttonsPanel.add(pause);
     }
     
     private void setUpButtonAction(){
@@ -132,7 +135,7 @@ class Display{
             public void actionPerformed(ActionEvent e) {
                 if (!startTime){
                     startTime = true;
-                    // thread and shit
+                    // thread
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -154,10 +157,18 @@ class Display{
         });
 
         reset.addActionListener(new ActionListener() {
+            
             @Override
             public void actionPerformed(ActionEvent e) {
                 startTime = false;
                 restart();
+            }
+        });
+
+        pause.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                startTime = false;
             }
         });
     }
