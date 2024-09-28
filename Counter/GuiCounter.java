@@ -1,108 +1,86 @@
-import java.awt.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import java.awt.Font;
 import java.awt.event.*;
 
-class AreYouSure extends Frame{
+public class Counter extends JFrame{
+    JPanel mainPanel;
+    
+    JTextField showCount;
+    JButton add;
+    JButton subtract;
+    JButton reset;
 
-    Button yes;
-    Button no;
-    Label text;
-
-    AreYouSure(){
-        super("Conformation Window");
-        super.setSize(360, 90);
-
-        text = new Label("Are you sure?");
-        yes = new Button();
-        yes.setLabel("YES");
-        yes.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
-
-        no = new Button("NO");
-        no.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
-        
-        super.setLayout(new FlowLayout());
-        super.add(text);
-        super.add(yes);
-        super.add(no);
-
-        super.setVisible(true);
+    Counter(){
+        super("Counter");
+        setUpMailPanelComponents();
+        setUpAction();
+        setUpFrame();
+    }
+    
+    private void setUpFrame(){
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.getContentPane().add(mainPanel);
+        this.pack();
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
     }
 
-}
+    private void setUpMailPanelComponents(){
+        mainPanel = new JPanel();
 
-public class GuiCounter extends Frame{
-    Button incrementButton;
-    Button decrementButton;
-    Button reset;
-    Button exit;
-    Label label;
-    TextField textField;
-    int count = 0;
+        showCount = new JTextField(3);
+        showCount.setEnabled(false);
+        showCount.setFont(new Font("Arail", Font.BOLD, 20));
 
-    GuiCounter(){
-        super("Counter App");
+        add = new JButton(" + ");
+        add.setFocusable(false);
 
-        super.setSize(360, 90);
+        subtract = new JButton(" - ");
+        subtract.setFocusable(false);
 
-        incrementButton = new Button("   +   ");
-        incrementButton.addActionListener(new ActionListener() {
+        reset = new JButton("reset");
+
+
+        mainPanel.add(showCount);
+        mainPanel.add(add);
+        mainPanel.add(subtract);
+        mainPanel.add(reset);
+    }
+
+
+    int num;
+    private void setUpAction(){
+        add.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                textField.setText(++count + "");
+                if (num < 100)
+                    num++;
+                showCount.setText(num + "");
             }
         });
-        decrementButton = new Button("   -   ");
-        decrementButton.addActionListener(new ActionListener() {
+        subtract.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (count > 0)
-                    textField.setText(--count + "");
+                if (num > 0)
+                    num--;
+                showCount.setText(num + "");
             }
         });
-
-        reset = new Button("reset");
         reset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                count = 0;
-                textField.setText(count + "");
+                num = 0;
+                showCount.setText(num + "");
             }
         });
-        
-        exit = new Button("exit");
-        exit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new AreYouSure();
-            }
-        });
-
-        label = new Label("Number of product: ");
-
-        textField = new TextField();
-        textField.setText(count + "");
-        super.setLayout(new FlowLayout());
-        add(label);
-        add(incrementButton);
-        add(textField);
-        add(decrementButton);
-        super.add(reset);
-        super.add(exit);
-
-        super.setVisible(true);
-        
     }
     
+    
+    
     public static void main(String[] args) {
-        new GuiCounter();
+        new Counter();
     }
 }
